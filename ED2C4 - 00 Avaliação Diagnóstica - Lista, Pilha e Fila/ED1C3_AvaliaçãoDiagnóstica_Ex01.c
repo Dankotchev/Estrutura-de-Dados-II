@@ -1,41 +1,41 @@
 /*
-	EXERCÕCIO 01:
-    Crie um programa capaz de simular um Estacionamento. Inicialmente, dever·
-    ser solicitado ao usu·rio o tipo de tÈcnica a ser utilizada (Lista, Pilha ou
-    Fila). ApÛs a escolha da tÈcnica, dever· ser solicitado opÁıes do tipo:
-    	a. estacionar o carro
-    	b. retirar o carro
-    	c. olhar carro (verificar se o carro est· no local)
-	A estrutura a ser utilizada (Pilha, Fila ou Lista) representar· o estacionamento.
-	Sugest„o: Crie um menu para apresentar as opÁıes acima.
-	
-	OBS: No caso de se escolher:
-		* a estrutura de pilha, deve-se supor que o estacionamento possui somente
-		uma entrada e sÛ cabe um carro de largura, n„o permitindo manobra dentro do
-		estacionamento. Assim, dever· ser utilizado 2 pilhas: uma pilha para o 
-		estacionamento principal e outra para o estacionamento secund·rio, pois assim,
-		para remover um carro deve-se retirar todos os carros que est„o no topo do 
-		estacionamento principal, um a um, atÈ encontrar o carro desejado. Os carros
-		retirados devem ser colocados na pilha secund·ria, e depois devolvidos
-		para a pilha prim·ria. Se for estacionar um carro, deve-se coloc·-lo no
-		final do estacionamento prim·rio.
-		* a estrutura de fila, supor que o estacionamento possui duas entradas,
-		uma em cada extremo, mas possui a largura de um ˙nico carro, n„o permitindo a
-		manobra. Assim, para retirar um determinado carro, deve-se retirar da
-		frente e colocar no final da fila atÈ encontrar o carro desejado.
-		Se for estacionar um novo carro, deve-se sempre colocar no final da fila.
-		* a estrutura de Lista, o carro dever· ser colocado em uma posiÁ„o
-		qualquer de acordo com a ordem das placas. O carro pode ser retirado de
-		qualquer posiÁ„o.
-		
-		Autor: Danilo Domingues Quirino
-		Vers„o: 202207-28
-*/
+    EXERC√çCIO 01:
+    Crie um programa capaz de simular um Estacionamento. Inicialmente, dever√°
+    ser solicitado ao usu√°rio o tipo de t√©cnica a ser utilizada (Lista, Pilha ou
+    Fila). Ap√≥s a escolha da t√©cnica, dever√° ser solicitado op√ß√µes do tipo:
+        a. estacionar o carro
+        b. retirar o carro
+        c. olhar carro (verificar se o carro est√° no local)
+    A estrutura a ser utilizada (Pilha, Fila ou Lista) representar√° o estacionamento.
+    Sugest√£o: Crie um menu para apresentar as op√ß√µes acima.
 
+    OBS: No caso de se escolher:
+        * a estrutura de pilha, deve-se supor que o estacionamento possui somente
+        uma entrada e s√≥ cabe um carro de largura, n√£o permitindo manobra dentro do
+        estacionamento. Assim, dever√° ser utilizado 2 pilhas: uma pilha para o
+        estacionamento principal e outra para o estacionamento secund√°rio, pois assim,
+        para remover um carro deve-se retirar todos os carros que est√£o no topo do
+        estacionamento principal, um a um, at√© encontrar o carro desejado. Os carros
+        retirados devem ser colocados na pilha secund√°ria, e depois devolvidos
+        para a pilha prim√°ria. Se for estacionar um carro, deve-se coloc√°-lo no
+        final do estacionamento prim√°rio.
+        * a estrutura de fila, supor que o estacionamento possui duas entradas,
+        uma em cada extremo, mas possui a largura de um √∫nico carro, n√£o permitindo a
+        manobra. Assim, para retirar um determinado carro, deve-se retirar da
+        frente e colocar no final da fila at√© encontrar o carro desejado.
+        Se for estacionar um novo carro, deve-se sempre colocar no final da fila.
+        * a estrutura de Lista, o carro dever√° ser colocado em uma posi√ß√£o
+        qualquer de acordo com a ordem das placas. O carro pode ser retirado de
+        qualquer posi√ß√£o.
+
+        Autor: Danilo Domingues Quirino
+        Vers√£o: 202207-28
+*/
 
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
 typedef struct sCarros
 {
@@ -43,8 +43,6 @@ typedef struct sCarros
     char proprietario[30];
     char contato[30];
 } CAR;
-
-
 
 typedef struct sNoh
 {
@@ -57,7 +55,7 @@ void init(NOH **init)
     *init = NULL;
 }
 
-void initPilha (NOH **inicio, NOH **fim)
+void initPilha(NOH **inicio, NOH **fim)
 {
     *inicio = NULL;
     *fim = NULL;
@@ -80,26 +78,25 @@ int empty(NOH *ponteiro)
     return 0;
 }
 
-void exibe (NOH *ponteiro)
+void exibe(NOH *ponteiro)
 {
     printf("\n");
     while (ponteiro != NULL)
     {
-
+        printf("Placa do Veiculo :: %s\nProprietario :: %s\nContato :: %s"
+            ,ponteiro->veiculo.placa, ponteiro->veiculo.proprietario, ponteiro->veiculo.contato);
         ponteiro = ponteiro->next;
     }
 }
 
-
-
-void inserirLista(NOH **lista, CAR x)
+void inserirLista(NOH **lista, CAR cliente)
 {
     NOH *inserir;
 
     inserir = getNode();
     if (inserir != NULL)
     {
-        inserir->veiculo = x;
+        inserir->veiculo = cliente;
         inserir->next = *lista;
         *lista = inserir;
     }
@@ -110,13 +107,13 @@ void inserirLista(NOH **lista, CAR x)
     }
 }
 
-void enqueue(NOH **inicio, NOH **fim, CAR x)
+void enqueue(NOH **inicio, NOH **fim, CAR cliente)
 {
     NOH *inserir;
     inserir = getNode();
-    if(inserir != NULL)
+    if (inserir != NULL)
     {
-        inserir->veiculo = x;
+        inserir->veiculo = cliente;
         inserir->next = NULL;
 
         if (empty(*inicio))
@@ -133,36 +130,36 @@ void enqueue(NOH **inicio, NOH **fim, CAR x)
     }
 }
 
-CAR dequeue (NOH **inicio, NOH **fim)
+CAR dequeue(NOH **inicio, NOH **fim)
 {
     NOH *remover;
-    CAR x;
+    CAR cliente;
 
-    if(!empty(*inicio))
+    if (!empty(*inicio))
     {
         remover = *inicio;
         *inicio = (*inicio)->next;
         if (*inicio == NULL)
             *fim = NULL;
 
-        x = remover->veiculo;
+        cliente = remover->veiculo;
         freeNode(remover);
     }
     else
     {
         printf("Erro, fila vazia.\n");
-//        return NULL;
+        //        return NULL;
     }
-    return x;
+    return cliente;
 }
 
-void push(NOH **top, CAR x)
+void push(NOH **top, CAR cliente)
 {
     NOH *inserir;
     inserir = getNode();
     if (inserir != NULL)
     {
-        inserir->veiculo = x;
+        inserir->veiculo = cliente;
         if (!empty(*top))
             inserir->next = *top;
         else
@@ -179,12 +176,12 @@ void push(NOH **top, CAR x)
 CAR pop(NOH **top)
 {
     NOH *remover;
-    CAR x;
+    CAR cliente;
 
     if (!empty(*top))
     {
         remover = *top;
-        x = remover->veiculo;
+        cliente = remover->veiculo;
 
         *top = (*top)->next;
         freeNode(remover);
@@ -193,10 +190,8 @@ CAR pop(NOH **top)
     {
         printf("\nErro, pilha vazia.\n");
     }
-    return x;
+    return cliente;
 }
-
-
 
 int menuEstrutura()
 {
@@ -211,8 +206,7 @@ int menuEstrutura()
     {
         printf("Escolha ==>   ");
         scanf("%d", &op);
-    }
-    while (op < 0 || op > 3);
+    } while (op < 0 || op > 3);
     return op;
 }
 
@@ -229,44 +223,35 @@ int menuEstacionamento()
     {
         printf("Escolha ==>   ");
         scanf("%d", &op);
-    }
-    while (op < 0 || op > 3);
+    } while (op < 0 || op > 3);
     return op;
+}
+
+void lerTexto(char *texto, int tamanho)
+{
+    //fflush(stdin);
+    __fpurge(stdin);
+    fgets(texto, tamanho, stdin);
+    if (texto[strlen(texto) - 1] == '\n')
+    {
+        texto[strlen(texto) - 1] = '\0';
+    }
 }
 
 CAR lerInformacoes()
 {
-    CAR v;
+    CAR veiculo;
 
     printf("Placa do Veiculo: ");
-    fflush(stdin);
-    //__fpurge(stdin);
-    fgets(v.placa, 7, stdin);
-    if (v.placa[strlen(v.placa) - 1] == '\n')
-    {
-        v.placa[strlen(v.placa) - 1] = '\0';
-    }
+    lerTexto(veiculo.placa, 8);
 
     printf("Proprietario do Veiculo: ");
-    fflush(stdin);
-    //__fpurge(stdin);
-    fgets(v.proprietario, 29, stdin);
-    if (v.proprietario[strlen(v.proprietario) - 1] == '\n')
-    {
-        v.proprietario[strlen(v.proprietario) - 1] = '\0';
-    }
+    lerTexto(veiculo.proprietario, 30);
 
     printf("Contato: ");
-    fflush(stdin);
-    //__fpurge(stdin);
-    fgets(v.contato, 29, stdin);
-    if (v.contato[strlen(v.contato) - 1] == '\n')
-    {
-        v.contato[strlen(v.contato) - 1] = '\0';
-    }
+    lerTexto(veiculo.contato, 30);
 
-
-    return v;
+    return veiculo;
 }
 
 int main()
@@ -274,7 +259,7 @@ int main()
     int op, opp;
     NOH *inicio;
     NOH *fim;
-    CAR v;
+    CAR veiculo;
 
     do
     {
@@ -296,7 +281,7 @@ int main()
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    //v = removerLista(&inicio);
+                    // v = removerLista(&inicio);
                     break;
 
                 case 3:
@@ -308,8 +293,7 @@ int main()
                     printf("\tRetornando ao menu anterior...");
                     break;
                 }
-            }
-            while (opp! = 0);
+            } while (opp != 0);
             break;
 
         case 2:
@@ -322,13 +306,12 @@ int main()
                 {
                 case 1:
                     printf("\tEstacionar um Veiculo");
-                    init(&inicio)
                     push(&inicio, lerInformacaoes());
                     break;
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    v = pop(&inicio);
+                    veiculo = pop(&inicio);
                     break;
 
                 case 3:
@@ -339,14 +322,12 @@ int main()
                 case 0:
                     printf("\tRetornando ao menu anterior...");
                     break;
-
                 }
-            }
-            while (opp! = 0);
+            } while (opp != 0);
             break;
 
         case 3:
-            init(&inicio, &fim);
+            initPilha(&inicio, &fim);
             printf("\tFila de Veiculos");
             do
             {
@@ -355,13 +336,12 @@ int main()
                 {
                 case 1:
                     printf("\tEstacionar um Veiculo");
-                    init(&inicio)
-                    enqueue(&inicio,&fim, lerInformacaoes());
+                    enqueue(&inicio, &fim, lerInformacaoes());
                     break;
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    v = dequeue(&inicio, &fim);
+                    veiculo = dequeue(&inicio, &fim);
                     break;
 
                 case 3:
@@ -372,26 +352,16 @@ int main()
                 case 0:
                     printf("\tRetornando ao menu anterior...");
                     break;
-
                 }
-            }
-            while (opp! = 0);
+            } while (opp != 0);
             break;
 
         case 0:
             printf("Encerrando...");
             break;
         }
-    }
-    while (op != 0);
+    } while (op != 0);
     return 0;
 
     return 0;
 }
-
-
-
-
-
-
-
