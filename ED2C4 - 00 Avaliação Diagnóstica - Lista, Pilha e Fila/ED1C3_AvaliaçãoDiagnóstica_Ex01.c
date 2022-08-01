@@ -107,6 +107,11 @@ void inserirLista(NOH **lista, CAR cliente)
     }
 }
 
+void removerLista(NOH **lista, char placa)
+{
+    
+}
+
 void enqueue(NOH **inicio, NOH **fim, CAR cliente)
 {
     NOH *inserir;
@@ -261,6 +266,8 @@ int main()
     NOH *fim;
     CAR veiculo;
 
+    char placa[8];
+
     do
     {
         op = menuEstrutura();
@@ -281,7 +288,9 @@ int main()
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    // v = removerLista(&inicio);
+                    printf("Informe a placa do veiculo a ser retirado: ");
+                    lerTexto(placa, 8);
+                    //v = removerLista(&inicio, placa);
                     break;
 
                 case 3:
@@ -306,12 +315,14 @@ int main()
                 {
                 case 1:
                     printf("\tEstacionar um Veiculo");
-                    push(&inicio, lerInformacaoes());
+                    push(&inicio, lerInformacoes());
                     break;
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    veiculo = pop(&inicio);
+                    printf("Informe a placa do veiculo a ser retirado: ");
+                    lerTexto(placa, 8);
+                    //v = removerLista(&inicio, placa);
                     break;
 
                 case 3:
@@ -336,12 +347,14 @@ int main()
                 {
                 case 1:
                     printf("\tEstacionar um Veiculo");
-                    enqueue(&inicio, &fim, lerInformacaoes());
+                    enqueue(&inicio, &fim, lerInformacoes());
                     break;
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    veiculo = dequeue(&inicio, &fim);
+                    printf("Informe a placa do veiculo a ser retirado: ");
+                    lerTexto(placa, 8);
+                    //v = removerLista(&inicio, placa);
                     break;
 
                 case 3:
