@@ -77,15 +77,15 @@ int empty(NOH *ponteiro)
     return 0;
 }
 
-void exibe(NOH *ponteiro)
+int observarLista(NOH *lista, char placa[])
 {
-    printf("\n");
-    while (ponteiro != NULL)
+    while (lista != NULL)
     {
-        printf("Placa do Veiculo :: %s\nProprietario :: %s",
-                ponteiro->veiculo.placa, ponteiro->veiculo.proprietario);
-        ponteiro = ponteiro->next;
+        if ((strcmp(lista->veiculo.placa, placa)) != 0)
+            return 1;
+        lista = lista->next;
     }
+    return 0;
 }
 
 void inserirLista(NOH **lista, CAR cliente)
@@ -299,7 +299,7 @@ CAR lerInformacoes()
 void apresentarRemocao(CAR veiculo)
 {
     printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n",
-        veiculo.placa, veiculo.proprietario);
+           veiculo.placa, veiculo.proprietario);
 }
 
 int main()
@@ -341,12 +341,12 @@ int main()
                     printf("\tObservar Estacionamento");
                     printf("\nInforme a placa do veiculo a ser procurado: ");
                     lerTexto(placa, 8);
-                    presenteNoEstacionamento = observarLista(&inicio, placa);
+                    presenteNoEstacionamento = observarLista(inicio, placa);
                     if (presenteNoEstacionamento)
                         printf("Veiculo presente no Estacionamento");
                     else
                         printf("Veiculo nao esta no Estacionamento");
-                    
+
                     break;
 
                 case 0:
