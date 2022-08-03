@@ -71,9 +71,9 @@ int empty(NOH *ponteiro)
     return 0;
 }
 
-/* 
+/*
     Optei por ser genérico na hora de verificar se tem algum veículo em particular na estrutura,
-    respeitando apenas a estrutura em si durante as inclusões e remoções. 
+    respeitando apenas a estrutura em si durante as inclusões e remoções.
     Podemos imaginar que para verificar a existência ou não de um veículo em particular, temos a
     posibilidade de "andar" ao lados dos mesmo.
 */
@@ -256,7 +256,7 @@ void enqueue(NOH **inicio, NOH **fim, CAR cliente)
 CAR dequeue(NOH **inicio, NOH **fim)
 {
     NOH *remover;
-    CAR cliente;
+    CAR veiculo;
 
     if (!empty(*inicio))
     {
@@ -265,15 +265,39 @@ CAR dequeue(NOH **inicio, NOH **fim)
         if (*inicio == NULL)
             *fim = NULL;
 
-        cliente = remover->veiculo;
+        veiculo = remover->veiculo;
         freeNode(remover);
     }
     else
     {
-        printf("Erro, fila vazia.\n");
-        //        return NULL;
+        veiculo.placa[8] = "null";
     }
-    return cliente;
+    return veiculo;
+}
+
+CAR removerFila(NOH **inicio, NOH **fim, char placa[])
+{
+    NOH *primeiroDaFila = *inicio; // O primeiro carro da fila antes de começar a rodar
+    CAR veiculo;
+    int procurando = 1;
+
+    if (!empty(inicio))
+    {
+        while (procurando)
+        {
+            veiculo = dequeue(inicio, fim);
+            // Se voltar para o veiculo primeiro da fila original ou se encontrar o veiculo correto
+            if ((strcmp(veiculo.placa, primeiroDaFila->veiculo.placa) == 0) || (strcmp(veiculo.placa, placa) == 0))
+                procurando = 0;
+            else
+                enqueue(inicio, fim, veiculo); // Guardar o veiculo incorreto na pilha auxiliar
+        }
+    }
+    else
+    {
+        veiculo.placa[8] = "null";
+    }
+    return veiculo;
 }
 
 // Funções GERAIS
@@ -451,14 +475,21 @@ int main()
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    printf("Informe a placa do veiculo a ser retirado: ");
+                    printf("\nInforme a placa do veiculo a ser retirado: ");
                     lerTexto(placa, 8);
-                    // v = removerLista(&inicio, placa);
+                    veiculo = removerFila(&inicio, &fim, placa);
+                    apresentarRemocao(veiculo);
                     break;
 
                 case 3:
-                    printf("\tEstado do estacionamento");
-                    exibir(&inicio);
+                    printf("\tObservar Estacionamento");
+                    printf("\nInforme a placa do veiculo a ser procurado: ");
+                    lerTexto(placa, 8);
+                    presenteNoEstacionamento = observar(inicio, placa);
+                    if (presenteNoEstacionamento)
+                        printf("Veiculo presente no Estacionamento");
+                    else
+                        printf("Veiculo nao esta no Estacionamento");
                     break;
 
                 case 0:
