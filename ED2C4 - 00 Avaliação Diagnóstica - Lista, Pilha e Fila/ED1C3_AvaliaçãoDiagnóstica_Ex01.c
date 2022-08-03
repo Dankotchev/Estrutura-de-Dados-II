@@ -29,7 +29,7 @@
         qualquer posição.
 
         Autor: Danilo Domingues Quirino
-        Versão: 202207-28
+        Versão: 202208-03
 */
 
 #include <ctype.h>
@@ -71,6 +71,7 @@ int empty(NOH *ponteiro)
     return 0;
 }
 
+// Funções da Estrutura de __LISTA__
 int observarLista(NOH *lista, char placa[])
 {
     while (lista != NULL)
@@ -143,11 +144,86 @@ CAR removerLista(NOH **lista, char placa[])
     }
     else
     {
-        return NULL;
+        veiculo.placa[8] = "null";
     }
     return veiculo;
 }
 
+// Funções da Estrutura de __PILHA__
+void push(NOH **top, CAR cliente)
+{
+    NOH *inserir;
+    inserir = getNode();
+    if (inserir != NULL)
+    {
+        inserir->veiculo = cliente;
+        if (!empty(*top))
+            inserir->next = *top;
+        else
+            inserir->next = NULL;
+        *top = inserir;
+    }
+    else
+    {
+        printf("\nErro na alocacao do no.\n");
+        return;
+    }
+}
+
+CAR pop(NOH **top)
+{
+    NOH *remover;
+    CAR veiculo;
+
+    if (!empty(*top))
+    {
+        remover = *top;
+        veiculo = remover->veiculo;
+
+        *top = (*top)->next;
+        freeNode(remover);
+    }
+    else
+    {
+        veiculo.placa[8] = "null";
+    }
+    return veiculo;
+}
+
+CAR removerPilha(NOH **original, char placa[])
+{
+    NOH *pilhaAux;
+    CAR veiculo;
+    int procurando = 1;
+
+    init(pilhaAux);
+
+    if (!empty(original))
+    {
+        while (procurando)
+        {
+            veiculo = pop(original);
+            // Se não houver mais veiculos na pilha original ou se encontrar o veiculo correto
+            if ((strcmp(veiculo.placa, "null") == 0) || (strcmp(veiculo.placa, placa) == 0))
+                procurando = 0;
+            else
+                push(pilhaAux, veiculo); // Guardar o veiculo incorreto na pilha auxiliar
+        }
+
+        // Retonar veiculos da pilha auxiliar para a original
+        while (!empty(pilhaAux))
+        {
+            push(original, pop(pilhaAux));
+        }
+    }
+    else
+    {
+        veiculo.placa[8] = "null";
+    }
+    return veiculo;
+}
+
+// Funções da Estrutura de __FILA__
 void enqueue(NOH **inicio, NOH **fim, CAR cliente)
 {
     NOH *inserir;
@@ -194,46 +270,7 @@ CAR dequeue(NOH **inicio, NOH **fim)
     return cliente;
 }
 
-void push(NOH **top, CAR cliente)
-{
-    NOH *inserir;
-    inserir = getNode();
-    if (inserir != NULL)
-    {
-        inserir->veiculo = cliente;
-        if (!empty(*top))
-            inserir->next = *top;
-        else
-            inserir->next = NULL;
-        *top = inserir;
-    }
-    else
-    {
-        printf("\nErro na alocacao do no.\n");
-        return;
-    }
-}
-
-CAR pop(NOH **top)
-{
-    NOH *remover;
-    CAR cliente;
-
-    if (!empty(*top))
-    {
-        remover = *top;
-        cliente = remover->veiculo;
-
-        *top = (*top)->next;
-        freeNode(remover);
-    }
-    else
-    {
-        printf("\nErro, pilha vazia.\n");
-    }
-    return cliente;
-}
-
+// Funções GERAIS
 int menuEstrutura()
 {
     int op;
@@ -292,8 +329,13 @@ CAR lerInformacoes()
 
 void apresentarRemocao(CAR veiculo)
 {
-    printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n",
-           veiculo.placa, veiculo.proprietario);
+    if ((strcmp(veiculo.placa, "null") != 0))
+    {
+        printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n",
+               veiculo.placa, veiculo.proprietario);
+    }
+    else
+        printf("\nVeiculo nao encontrado.");
 }
 
 int main()
@@ -341,7 +383,6 @@ int main()
                         printf("Veiculo presente no Estacionamento");
                     else
                         printf("Veiculo nao esta no Estacionamento");
-
                     break;
 
                 case 0:
@@ -365,14 +406,21 @@ int main()
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    printf("Informe a placa do veiculo a ser retirado: ");
+                    printf("\nInforme a placa do veiculo a ser retirado: ");
                     lerTexto(placa, 8);
-                    // v = removerLista(&inicio, placa);
+                    veiculo = removerPilha(&inicio, placa);
+                    apresentarRemocao(veiculo);
                     break;
 
                 case 3:
-                    printf("\tEstado do estacionamento");
-                    exibir(&inicio);
+                    printf("\tObservar Estacionamento");
+                    printf("\nInforme a placa do veiculo a ser procurado: ");
+                    lerTexto(placa, 8);
+                    presenteNoEstacionamento = observarPilha(inicio, placa);
+                    if (presenteNoEstacionamento)
+                        printf("Veiculo presente no Estacionamento");
+                    else
+                        printf("Veiculo nao esta no Estacionamento");
                     break;
 
                 case 0:
