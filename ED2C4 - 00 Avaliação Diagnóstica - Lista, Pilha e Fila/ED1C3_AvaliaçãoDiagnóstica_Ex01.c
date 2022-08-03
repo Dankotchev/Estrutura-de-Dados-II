@@ -92,43 +92,57 @@ int observar(NOH *ponteiro, char placa[])
 void inserirLista(NOH **lista, CAR cliente)
 {
     NOH *inserir;
-    NOH *aux = *lista;
+    NOH *aux;
 
     inserir = getNode();
+    printf("\n\n\t\tGerou INSERIR");
     if (inserir != NULL)
     {
         inserir->veiculo = cliente;
+        inserir->next = NULL;
+        printf("\n\n\t\tEntrou no IF");
 
         if (empty(*lista))
         {
             inserir->next = *lista;
             *lista = inserir;
+            printf("\n\n\t\tEntrou no vazia");
         }
         else
         {
-
+            printf("\n\n\t\tEntrou no ELSE");
+            aux = *lista;
+            // O item a ser inserido é menor que o primeiro da lista?
             if (strcmp(inserir->veiculo.placa, aux->veiculo.placa) < 0)
             {
                 (*lista)->next = inserir;
                 inserir->next = aux;
+                printf("\n\n\t\tEntrou no primeira posicao");
             }
             else
             {
-                while (strcmp(aux->next->veiculo.placa, inserir->veiculo.placa) <= 0)
+                printf("\n\n\t\tEntrou no else");
+                // O item a ser inserido é maior que a posição seguinte ao auxiliar?
+                while ((aux->next != NULL) 
+                        || (strcmp(inserir->veiculo.placa, aux->next->veiculo.placa) > 0))
                 {
                     aux = aux->next;
+                    printf("\n\n\t\tEntrou no while");
                 }
-
+                printf("\n\n\t\tEntrou no final");
                 inserir->next = aux->next;
                 aux->next = inserir;
             }
+            printf("\n\n\t\tSaiu do ELSE");
         }
+        printf("\n\n\t\tnao entrou no IF de DENTRO");
     }
     else
     {
         printf("\nErro na alocacao do no");
         exit(1);
     }
+    printf("\n\n\t\tNao entrou no IF de FORA");
 }
 
 CAR removerLista(NOH **lista, char placa[])
