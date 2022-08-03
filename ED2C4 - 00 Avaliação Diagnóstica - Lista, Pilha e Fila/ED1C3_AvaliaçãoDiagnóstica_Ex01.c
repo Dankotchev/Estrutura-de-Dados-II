@@ -54,12 +54,6 @@ void init(NOH **init)
     *init = NULL;
 }
 
-void initPilha(NOH **inicio, NOH **fim)
-{
-    *inicio = NULL;
-    *fim = NULL;
-}
-
 NOH *getNode()
 {
     return (NOH *)malloc(sizeof(NOH));
@@ -311,13 +305,14 @@ int main()
 
     char placa[8];
 
+    init(&inicio);
+
     do
     {
         op = menuEstrutura();
         switch (op)
         {
         case 1:
-            init(&inicio);
             printf("\tLista de Veiculos ");
             do
             {
@@ -357,7 +352,6 @@ int main()
             break;
 
         case 2:
-            init(&inicio);
             printf("\tPilha de Veiculos");
             do
             {
@@ -389,7 +383,7 @@ int main()
             break;
 
         case 3:
-            initPilha(&inicio, &fim);
+            init(&fim);
             printf("\tFila de Veiculos");
             do
             {
