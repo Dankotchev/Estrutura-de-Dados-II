@@ -71,18 +71,24 @@ int empty(NOH *ponteiro)
     return 0;
 }
 
-// Funções da Estrutura de __LISTA__
-int observarLista(NOH *lista, char placa[])
+/* 
+    Optei por ser genérico na hora de verificar se tem algum veículo em particular na estrutura,
+    respeitando apenas a estrutura em si durante as inclusões e remoções. 
+    Podemos imaginar que para verificar a existência ou não de um veículo em particular, temos a
+    posibilidade de "andar" ao lados dos mesmo.
+*/
+int observar(NOH *ponteiro, char placa[])
 {
-    while (lista != NULL)
+    while (ponteiro != NULL)
     {
-        if ((strcmp(lista->veiculo.placa, placa)) != 0)
+        if ((strcmp(ponteiro->veiculo.placa, placa)) != 0)
             return 1;
-        lista = lista->next;
+        ponteiro = ponteiro->next;
     }
     return 0;
 }
 
+// Funções da Estrutura de __LISTA__
 void inserirLista(NOH **lista, CAR cliente)
 {
     NOH *inserir;
@@ -378,7 +384,7 @@ int main()
                     printf("\tObservar Estacionamento");
                     printf("\nInforme a placa do veiculo a ser procurado: ");
                     lerTexto(placa, 8);
-                    presenteNoEstacionamento = observarLista(inicio, placa);
+                    presenteNoEstacionamento = observar(inicio, placa);
                     if (presenteNoEstacionamento)
                         printf("Veiculo presente no Estacionamento");
                     else
@@ -416,7 +422,7 @@ int main()
                     printf("\tObservar Estacionamento");
                     printf("\nInforme a placa do veiculo a ser procurado: ");
                     lerTexto(placa, 8);
-                    presenteNoEstacionamento = observarPilha(inicio, placa);
+                    presenteNoEstacionamento = observar(inicio, placa);
                     if (presenteNoEstacionamento)
                         printf("Veiculo presente no Estacionamento");
                     else
