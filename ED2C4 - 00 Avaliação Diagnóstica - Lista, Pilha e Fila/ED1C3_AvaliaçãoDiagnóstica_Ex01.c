@@ -99,20 +99,29 @@ void inserirLista(NOH **lista, CAR cliente)
     {
         inserir->veiculo = cliente;
 
-        if (strcmp(inserir->veiculo.placa, aux->veiculo.placa) < 0)
+        if (empty(*lista))
         {
-            (*lista)->next = inserir;
-            inserir->next = aux;
+            inserir->next = *lista;
+            *lista = inserir;
         }
         else
         {
-            while (strcmp(aux->next->veiculo.placa, inserir->veiculo.placa) <= 0)
-            {
-                aux = aux->next;
-            }
 
-            inserir->next = aux->next;
-            aux->next = inserir;
+            if (strcmp(inserir->veiculo.placa, aux->veiculo.placa) < 0)
+            {
+                (*lista)->next = inserir;
+                inserir->next = aux;
+            }
+            else
+            {
+                while (strcmp(aux->next->veiculo.placa, inserir->veiculo.placa) <= 0)
+                {
+                    aux = aux->next;
+                }
+
+                inserir->next = aux->next;
+                aux->next = inserir;
+            }
         }
     }
     else
@@ -150,7 +159,7 @@ CAR removerLista(NOH **lista, char placa[])
     }
     else
     {
-        veiculo.placa[8] = "null";
+        strcpy(veiculo.placa, "null");
     }
     return veiculo;
 }
@@ -191,7 +200,7 @@ CAR pop(NOH **top)
     }
     else
     {
-        veiculo.placa[8] = "null";
+        strcpy(veiculo.placa, "null");
     }
     return veiculo;
 }
@@ -202,9 +211,9 @@ CAR removerPilha(NOH **original, char placa[])
     CAR veiculo;
     int procurando = 1;
 
-    init(pilhaAux);
+    init(&pilhaAux);
 
-    if (!empty(original))
+    if (!empty(*original))
     {
         while (procurando)
         {
@@ -213,18 +222,18 @@ CAR removerPilha(NOH **original, char placa[])
             if ((strcmp(veiculo.placa, "null") == 0) || (strcmp(veiculo.placa, placa) == 0))
                 procurando = 0;
             else
-                push(pilhaAux, veiculo); // Guardar o veiculo incorreto na pilha auxiliar
+                push(&pilhaAux, veiculo); // Guardar o veiculo incorreto na pilha auxiliar
         }
 
         // Retonar veiculos da pilha auxiliar para a original
         while (!empty(pilhaAux))
         {
-            push(original, pop(pilhaAux));
+            push(original, pop(&pilhaAux));
         }
     }
     else
     {
-        veiculo.placa[8] = "null";
+        strcpy(veiculo.placa, "null");
     }
     return veiculo;
 }
@@ -270,7 +279,7 @@ CAR dequeue(NOH **inicio, NOH **fim)
     }
     else
     {
-        veiculo.placa[8] = "null";
+        strcpy(veiculo.placa, "null");
     }
     return veiculo;
 }
@@ -281,7 +290,7 @@ CAR removerFila(NOH **inicio, NOH **fim, char placa[])
     CAR veiculo;
     int procurando = 1;
 
-    if (!empty(inicio))
+    if (!empty(*inicio))
     {
         while (procurando)
         {
@@ -295,7 +304,7 @@ CAR removerFila(NOH **inicio, NOH **fim, char placa[])
     }
     else
     {
-        veiculo.placa[8] = "null";
+        strcpy(veiculo.placa, "null");
     }
     return veiculo;
 }
@@ -350,7 +359,7 @@ CAR lerInformacoes()
 {
     CAR veiculo;
 
-    printf("Placa do Veiculo: ");
+    printf("\nPlaca do Veiculo: ");
     lerTexto(veiculo.placa, 8);
     printf("Proprietario do Veiculo: ");
     lerTexto(veiculo.proprietario, 30);
@@ -361,8 +370,7 @@ void apresentarRemocao(CAR veiculo)
 {
     if ((strcmp(veiculo.placa, "null") != 0))
     {
-        printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n",
-               veiculo.placa, veiculo.proprietario);
+        printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n", veiculo.placa , veiculo.proprietario);
     }
     else
         printf("\nVeiculo nao encontrado.");
