@@ -35,13 +35,12 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 typedef struct sCarros
 {
     char placa[8];
     char proprietario[30];
-    char contato[30];
 } CAR;
 
 typedef struct sNoh
@@ -83,8 +82,8 @@ void exibe(NOH *ponteiro)
     printf("\n");
     while (ponteiro != NULL)
     {
-        printf("Placa do Veiculo :: %s\nProprietario :: %s\nContato :: %s"
-            ,ponteiro->veiculo.placa, ponteiro->veiculo.proprietario, ponteiro->veiculo.contato);
+        printf("Placa do Veiculo :: %s\nProprietario :: %s",
+                ponteiro->veiculo.placa, ponteiro->veiculo.proprietario);
         ponteiro = ponteiro->next;
     }
 }
@@ -92,13 +91,28 @@ void exibe(NOH *ponteiro)
 void inserirLista(NOH **lista, CAR cliente)
 {
     NOH *inserir;
+    NOH *aux = *lista;
 
     inserir = getNode();
     if (inserir != NULL)
     {
         inserir->veiculo = cliente;
-        inserir->next = *lista;
-        *lista = inserir;
+
+        if (strcmp(inserir->veiculo.placa, aux->veiculo.placa) < 0)
+        {
+            (*lista)->next = inserir;
+            inserir->next = aux;
+        }
+        else
+        {
+            while (strcmp(aux->next->veiculo.placa, inserir->veiculo.placa) <= 0)
+            {
+                aux = aux->next;
+            }
+
+            inserir->next = aux->next;
+            aux->next = inserir;
+        }
     }
     else
     {
@@ -107,9 +121,37 @@ void inserirLista(NOH **lista, CAR cliente)
     }
 }
 
-void removerLista(NOH **lista, char placa)
+CAR removerLista(NOH **lista, char placa[])
 {
-    
+    CAR veiculo;
+    NOH *aux, *remover;
+
+    if (!empty(*lista))
+    {
+        if (strcmp((*lista)->veiculo.placa, placa) == 0)
+        {
+            remover = *lista;
+            *lista = (*lista)->next;
+        }
+        else
+        {
+            aux = *lista;
+            while ((strcmp(aux->next->veiculo.placa, placa)) != 0)
+            {
+                aux = aux->next;
+            }
+            remover = aux->next;
+            aux->next = aux->next->next;
+        }
+
+        veiculo = remover->veiculo;
+        freeNode(remover);
+    }
+    else
+    {
+        return NULL;
+    }
+    return veiculo;
 }
 
 void enqueue(NOH **inicio, NOH **fim, CAR cliente)
@@ -221,7 +263,7 @@ int menuEstacionamento()
     printf("\n----------\n\tESCOLHA A OPERACAO DESEJADA");
     printf("\n1 -\tEstacionar Veiculo");
     printf("\n2 -\tRetirar um Veiculo");
-    printf("\n3 -\tObservar o estacionamento");
+    printf("\n3 -\tObservar um Veiculo");
     printf("\n0 -\tEncerrar.\n");
 
     do
@@ -234,7 +276,7 @@ int menuEstacionamento()
 
 void lerTexto(char *texto, int tamanho)
 {
-    //fflush(stdin);
+    // fflush(stdin);
     __fpurge(stdin);
     fgets(texto, tamanho, stdin);
     if (texto[strlen(texto) - 1] == '\n')
@@ -249,19 +291,20 @@ CAR lerInformacoes()
 
     printf("Placa do Veiculo: ");
     lerTexto(veiculo.placa, 8);
-
     printf("Proprietario do Veiculo: ");
     lerTexto(veiculo.proprietario, 30);
-
-    printf("Contato: ");
-    lerTexto(veiculo.contato, 30);
-
     return veiculo;
+}
+
+void apresentarRemocao(CAR veiculo)
+{
+    printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n",
+        veiculo.placa, veiculo.proprietario);
 }
 
 int main()
 {
-    int op, opp;
+    int op, opp, presenteNoEstacionamento;
     NOH *inicio;
     NOH *fim;
     CAR veiculo;
@@ -288,14 +331,22 @@ int main()
 
                 case 2:
                     printf("\tRemover um veiculo");
-                    printf("Informe a placa do veiculo a ser retirado: ");
+                    printf("\nInforme a placa do veiculo a ser retirado: ");
                     lerTexto(placa, 8);
-                    //v = removerLista(&inicio, placa);
+                    veiculo = removerLista(&inicio, placa);
+                    apresentarRemocao(veiculo);
                     break;
 
                 case 3:
-                    printf("\tEstado do estacionamento");
-                    exibir(&inicio);
+                    printf("\tObservar Estacionamento");
+                    printf("\nInforme a placa do veiculo a ser procurado: ");
+                    lerTexto(placa, 8);
+                    presenteNoEstacionamento = observarLista(&inicio, placa);
+                    if (presenteNoEstacionamento)
+                        printf("Veiculo presente no Estacionamento");
+                    else
+                        printf("Veiculo nao esta no Estacionamento");
+                    
                     break;
 
                 case 0:
@@ -322,7 +373,7 @@ int main()
                     printf("\tRemover um veiculo");
                     printf("Informe a placa do veiculo a ser retirado: ");
                     lerTexto(placa, 8);
-                    //v = removerLista(&inicio, placa);
+                    // v = removerLista(&inicio, placa);
                     break;
 
                 case 3:
@@ -354,7 +405,7 @@ int main()
                     printf("\tRemover um veiculo");
                     printf("Informe a placa do veiculo a ser retirado: ");
                     lerTexto(placa, 8);
-                    //v = removerLista(&inicio, placa);
+                    // v = removerLista(&inicio, placa);
                     break;
 
                 case 3:
