@@ -72,6 +72,17 @@ int empty(NOH *ponteiro)
 }
 
 /*
+void debug(NOH *ponteiro)
+{
+    while (ponteiro != NULL)
+    {
+        printf("\n\n\t\t%s", ponteiro->veiculo.placa);
+        ponteiro = ponteiro->next;
+    }
+}
+*/
+
+/*
     Optei por ser genérico na hora de verificar se tem algum veículo em particular na estrutura,
     respeitando apenas a estrutura em si durante as inclusões e remoções.
     Podemos imaginar que para verificar a existência ou não de um veículo em particular, temos a
@@ -82,8 +93,9 @@ int observar(NOH *ponteiro, char placa[])
     while (ponteiro != NULL)
     {
         if ((strcmp(ponteiro->veiculo.placa, placa)) != 0)
+            ponteiro = ponteiro->next;
+        else
             return 1;
-        ponteiro = ponteiro->next;
     }
     return 0;
 }
@@ -95,54 +107,42 @@ void inserirLista(NOH **lista, CAR cliente)
     NOH *aux;
 
     inserir = getNode();
-    printf("\n\n\t\tGerou INSERIR");
     if (inserir != NULL)
     {
         inserir->veiculo = cliente;
         inserir->next = NULL;
-        printf("\n\n\t\tEntrou no IF");
 
         if (empty(*lista))
         {
-            inserir->next = *lista;
+            // Caso a lista esteja vazia, inclusão do primeiro item
             *lista = inserir;
-            printf("\n\n\t\tEntrou no vazia");
         }
         else
         {
-            printf("\n\n\t\tEntrou no ELSE");
             aux = *lista;
             // O item a ser inserido é menor que o primeiro da lista?
             if (strcmp(inserir->veiculo.placa, aux->veiculo.placa) < 0)
             {
-                (*lista)->next = inserir;
                 inserir->next = aux;
-                printf("\n\n\t\tEntrou no primeira posicao");
+                *lista = inserir;
             }
             else
             {
-                printf("\n\n\t\tEntrou no else");
-                // O item a ser inserido é maior que a posição seguinte ao auxiliar?
-                while ((aux->next != NULL) 
-                        || (strcmp(inserir->veiculo.placa, aux->next->veiculo.placa) > 0))
+                // O proximo do auxiliar é diferente de nulo E item a ser inserido é maior que a posição seguinte ao auxiliar?
+                while ((aux->next != NULL) && (strcmp(inserir->veiculo.placa, aux->next->veiculo.placa) > 0))
                 {
                     aux = aux->next;
-                    printf("\n\n\t\tEntrou no while");
                 }
-                printf("\n\n\t\tEntrou no final");
                 inserir->next = aux->next;
                 aux->next = inserir;
             }
-            printf("\n\n\t\tSaiu do ELSE");
         }
-        printf("\n\n\t\tnao entrou no IF de DENTRO");
     }
     else
     {
         printf("\nErro na alocacao do no");
         exit(1);
     }
-    printf("\n\n\t\tNao entrou no IF de FORA");
 }
 
 CAR removerLista(NOH **lista, char placa[])
@@ -313,7 +313,7 @@ CAR removerFila(NOH **inicio, NOH **fim, char placa[])
             if ((strcmp(veiculo.placa, primeiroDaFila->veiculo.placa) == 0) || (strcmp(veiculo.placa, placa) == 0))
                 procurando = 0;
             else
-                enqueue(inicio, fim, veiculo); // Guardar o veiculo incorreto na pilha auxiliar
+                enqueue(inicio, fim, veiculo); // Guardar o veiculo incorreto de volta na fila, agora no final
         }
     }
     else
@@ -384,7 +384,7 @@ void apresentarRemocao(CAR veiculo)
 {
     if ((strcmp(veiculo.placa, "null") != 0))
     {
-        printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n", veiculo.placa , veiculo.proprietario);
+        printf("\nVeiculo removido:\n\tPlaca: %s\n\tProprietario:%s\n", veiculo.placa, veiculo.proprietario);
     }
     else
         printf("\nVeiculo nao encontrado.");
@@ -416,6 +416,7 @@ int main()
                 case 1:
                     printf("\tEstacionar um Veiculo");
                     inserirLista(&inicio, lerInformacoes());
+                    // debug(inicio);
                     break;
 
                 case 2:
@@ -454,6 +455,7 @@ int main()
                 case 1:
                     printf("\tEstacionar um Veiculo");
                     push(&inicio, lerInformacoes());
+                    // debug(inicio);
                     break;
 
                 case 2:
@@ -493,6 +495,7 @@ int main()
                 case 1:
                     printf("\tEstacionar um Veiculo");
                     enqueue(&inicio, &fim, lerInformacoes());
+                    // debug(inicio);
                     break;
 
                 case 2:
