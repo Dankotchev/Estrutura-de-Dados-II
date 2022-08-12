@@ -33,6 +33,29 @@ void inserirAleatorio(int vetorD[TAM], int vetorO[TAM])
     bubble_sort(vetorO, TAM);
 }
 
+int buscaExaustiva(int vetor[TAM], int valor)
+{
+    int i = 0;
+    int contador = 1;
+    printf("\t\t\tAntes do while... contador = %d\n", contador);
+
+    // Enquanto o valor da posição i do vetor for diferente do valor
+    // E o índice i menor que o TAMANHO do vetor
+    while ((vetor[i] != valor ) && (i < TAM))
+    {
+        i = i + 1;
+        contador++;
+        printf("\t\t\tDentro do while, nao encontrado, mais um passo... contador = %d\n", contador);
+    }
+    printf("Foram realizados %d passos", contador);
+
+    // Se o índice for menor que o TAMANHO e o valor da posição i for o valor procurado
+    if ((i < TAM) && (vetor[i] == valor))
+        return i; // achou na posição i
+    else
+        return -1; // não achou
+}
+
 int buscaSequencial(int vetor[TAM], int valor)
 {
     int i = 0;
@@ -44,22 +67,6 @@ int buscaSequencial(int vetor[TAM], int valor)
     }
     printf("Foram realizados %d passos", contador);
     if (i < TAM && (valor == vetor[i]))
-        return i; // achou na posição i
-    else
-        return -1; // não achou
-}
-
-int buscaExaustiva(int vetor[TAM], int valor)
-{
-    int i = 0;
-    int contador = 1;
-    while (vetor[i] != (valor && i < TAM))
-    {
-        i = i + 1;
-        contador++;
-    }
-    printf("Foram realizados %d passos", contador);
-    if (i < TAM && (vetor[i] == valor))
         return i; // achou na posição i
     else
         return -1; // não achou
@@ -91,9 +98,9 @@ int gerirMenu()
     int op;
     printf("\n----------\n\tESCOLHA A OPERACAO DESEJADA");
     printf("\n1 -\tInserir valores no vetor");
-    printf("\n2 -\tBusca Sequencial");
-    printf("\n3 -\tBusca Binaria");
-    printf("\n4 -\tBusca Exaustiva");
+    printf("\n2 -\tBusca Exaustiva");
+    printf("\n3 -\tBusca _____");
+    printf("\n4 -\tBusca _____");
     printf("\n0 -\tEncerrar.\n");
 
     do
@@ -122,9 +129,9 @@ int main()
             break;
 
         case 2:
-            printf("\tBusca Sequencial\n\tInforme o valor a procurar: ");
+            printf("\tBusca Exaustiva\n\tInforme o valor a procurar: ");
             scanf("%d", &procurar);
-            posicao = buscaSequencial(vetorOrdenado, procurar);
+            posicao = buscaExaustiva(vetorDesordenado, procurar);
             if (posicao >=0)
                 printf("\tValor Encontrado na posicao %d!", posicao);
             else
