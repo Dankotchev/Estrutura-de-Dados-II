@@ -2,6 +2,8 @@
 #include <time.h>
 #define TAM 10
 
+// Função de ordenação para ordenar um dos vetores para a busca
+// o entendimento ficará para as próximas aulas
 void bubble_sort(int vetor[TAM], int n)
 {
     int k, j, aux;
@@ -37,7 +39,6 @@ int buscaExaustiva(int vetor[TAM], int valor)
 {
     int i = 0;
     int contador = 1;
-    printf("\t\t\tAntes do while... contador = %d\n", contador);
 
     // Enquanto o valor da posição i do vetor for diferente do valor
     // E o índice i menor que o TAMANHO do vetor
@@ -45,7 +46,6 @@ int buscaExaustiva(int vetor[TAM], int valor)
     {
         i = i + 1;
         contador++;
-        printf("\t\t\tDentro do while, nao encontrado, mais um passo... contador = %d\n", contador);
     }
     printf("Foram realizados %d passos", contador);
 
@@ -60,7 +60,6 @@ int buscaSequencial(int vetor[TAM], int valor)
 {
     int i = 0;
     int contador = 1;
-    printf("\t\t\tAntes do while... contador = %d\n", contador);
 
     // Enquanto o valor procurado for menor que o valor da posição i
     // E o índice for menor que o TAMANHO do vetor
@@ -68,9 +67,7 @@ int buscaSequencial(int vetor[TAM], int valor)
     {
         i = i + 1;
         contador++;
-        printf("\t\t\tDentro do while, nao encontrado, mais um passo... contador = %d\n", contador);
     }
-    printf("Foram realizados %d passos", contador);
 
     // Se o índice for menor que o TAMANHO e o valor da posição i for o valor procurado
     if ((i < TAM) && (valor == vetor[i]))
@@ -81,19 +78,27 @@ int buscaSequencial(int vetor[TAM], int valor)
 
 int buscaBinaria(int vetor[TAM], int valor)
 {
-    int inicio = 0;
-    int fim = TAM - 1;
+    int inicio = 0;    // Definindo o ínicio de um vetor
+    int fim = TAM - 1; // Definindo o fim do vetor
     int meio;
     int contador = 1;
+
+    // Enquanto a posição íncio for menor ou igual a posição fim
     while (inicio <= fim)
     {
         meio = (inicio + fim) / 2;
         if (valor == vetor[meio])
-            return meio;
+        {
+            printf("Foram realizados %d passos", contador);
+            return meio; // Valor encontrado no meio do vetor definido, retorna a posição
+        }
+
+        // Se não encontrado na metade do vetor
+        // verifica se o valor procurado é menor que o valor da posição do meio.
         if (valor < vetor[meio])
-            fim = meio - 1;
+            fim = meio - 1; // Caso seja menor, o FIM passa ser a posição anterior a atual
         else
-            inicio = meio + 1;
+            inicio = meio + 1; // Caso seja maior, o ÍNICIO passa ser a posição seguinte a atual
         contador++;
     }
     printf("Foram realizados %d passos", contador);
@@ -107,7 +112,7 @@ int gerirMenu()
     printf("\n1 -\tInserir valores no vetor");
     printf("\n2 -\tBusca Exaustiva");
     printf("\n3 -\tBusca Sequencial");
-    printf("\n4 -\tBusca _____");
+    printf("\n4 -\tBusca Binaria");
     printf("\n0 -\tEncerrar.\n");
 
     do
