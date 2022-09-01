@@ -4,6 +4,7 @@
 #include "ED1C3_Ordenacao_A02_BubbleSort.h"
 #include "ED1C3_Ordenacao_A03_InsertSort.h"
 #include "ED1C3_Ordenacao_A04_ShellSort.h"
+#include "ED1C3_Ordenacao_A05_HeapSort.h"
 #define TAM 500
 
 void apresentarVetor(int *vetor)
@@ -95,7 +96,7 @@ int main()
             printf("\n\tHeap   Sort\nO vetor desordenado:\n");
             inserirAleatorio(&vetor);
             apresentarVetor(&vetor);
-            //permutacoes = heapSort(&vetor, TAM);
+            permutacoes = heapSort(&vetor, TAM);
             printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n", permutacoes);
             apresentarVetor(vetor);
             break;
