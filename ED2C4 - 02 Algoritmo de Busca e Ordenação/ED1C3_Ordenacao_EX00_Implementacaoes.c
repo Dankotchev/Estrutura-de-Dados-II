@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "ED1C3_Ordenacao_BubbleSort.h"
+#include "ED1C3_Ordenacao_SelectSort.h"
 #define TAM 50
 
 void apresentarVetor(int *vetor)
@@ -53,18 +54,23 @@ int main()
         switch (op)
         {
         case 1:
-            printf("\n\tBubble Short\nO vetor atualmente tem essa forma:\n");
+            printf("\n\tBubble Short\nO vetor desordenado:\n");
             inserirAleatorio(&vetor);
             apresentarVetor(&vetor);
             permutacoes = bubbleSort(&vetor, TAM);
-            printf("Foram necessarias %ld operacoes para ordenar o vetor;\n\tO vetor ordenado: \n"), permutacoes;
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
             apresentarVetor(vetor);
             break;
 
         case 2:
-            printf("\tBusca Exaustiva\n\tInforme o valor a procurar: ");
-
+            printf("\n\tSelect Short\nO vetor desordenado:\n");
+            inserirAleatorio(&vetor);
+            apresentarVetor(&vetor);
+            permutacoes = selectSort(&vetor, TAM);
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
+            apresentarVetor(vetor);
             break;
+
 
         case 3:
             printf("\tBusca Sequencial\n\tInforme o valor a procurar: ");
