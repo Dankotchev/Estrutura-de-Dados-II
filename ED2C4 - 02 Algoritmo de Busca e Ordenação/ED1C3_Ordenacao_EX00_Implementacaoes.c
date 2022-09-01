@@ -2,7 +2,8 @@
 #include <time.h>
 #include "ED1C3_Ordenacao_A01_SelectSort.h"
 #include "ED1C3_Ordenacao_A02_BubbleSort.h"
-#define TAM 50
+#include "ED1C3_Ordenacao_A03_InsertSort.h"
+#define TAM 500
 
 void apresentarVetor(int *vetor)
 {
@@ -75,7 +76,7 @@ int main()
             printf("\n\tInsert Short\nO vetor desordenado:\n");
             inserirAleatorio(&vetor);
             apresentarVetor(&vetor);
-            //permutacoes = insertSort(&vetor, TAM);
+            permutacoes = insertSort(&vetor, TAM);
             printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
             apresentarVetor(vetor);
             break;
