@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
-#include "ED1C3_Ordenacao_BubbleSort.h"
-#include "ED1C3_Ordenacao_SelectSort.h"
+#include "ED1C3_Ordenacao_A01_SelectSort.h"
+#include "ED1C3_Ordenacao_A02_BubbleSort.h"
 #define TAM 50
 
 void apresentarVetor(int *vetor)
@@ -71,15 +71,40 @@ int main()
             apresentarVetor(vetor);
             break;
 
-
         case 3:
-            printf("\tBusca Sequencial\n\tInforme o valor a procurar: ");
-
+            printf("\n\tInsert Short\nO vetor desordenado:\n");
+            inserirAleatorio(&vetor);
+            apresentarVetor(&vetor);
+            //permutacoes = insertSort(&vetor, TAM);
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
+            apresentarVetor(vetor);
             break;
 
         case 4:
-            printf("\tBusca Binaria\n\tInforme o valor a procurar: ");
+            printf("\n\tShell  Sort\nO vetor desordenado:\n");
+            inserirAleatorio(&vetor);
+            apresentarVetor(&vetor);
+            //permutacoes = shellSort(&vetor, TAM);
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
+            apresentarVetor(vetor);
+            break;
 
+        case 5:
+            printf("\n\tHeap   Sort\nO vetor desordenado:\n");
+            inserirAleatorio(&vetor);
+            apresentarVetor(&vetor);
+            //permutacoes = selectSort(&vetor, TAM);
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
+            apresentarVetor(vetor);
+            break;
+
+        case 6:
+            printf("\n\tQuick  Sort\nO vetor desordenado:\n");
+            inserirAleatorio(&vetor);
+            apresentarVetor(&vetor);
+            //permutacoes = selectSort(&vetor, TAM);
+            printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n"), permutacoes;
+            apresentarVetor(vetor);
             break;
 
         case 0:
