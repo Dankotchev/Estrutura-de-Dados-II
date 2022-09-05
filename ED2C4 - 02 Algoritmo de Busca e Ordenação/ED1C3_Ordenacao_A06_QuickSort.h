@@ -51,6 +51,7 @@ int particionaMediana(int vet[], int inicio, int fim)
 	return particiona(vet, inicio, fim);
 }
 
+// Escolha um pivo e coloca todos os valores maiores a sua direita, e menores a sua esquerda, finalizando o pivo em sua posição
 void quickSort(int *vetor, int iniVetor, int fimVetor)
 {
     int pivo;
