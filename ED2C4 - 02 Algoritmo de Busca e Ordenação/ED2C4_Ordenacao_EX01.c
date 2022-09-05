@@ -120,7 +120,7 @@ int main()
         case 7:
             printf("\n\tQuick  Sort\n");
             duplicarVetor(vetorOriginal, vetorDuplicado);
-            quickSort(vetorDuplicado, 0, TAM - 1);
+            //quickSort(vetorDuplicado, 0, TAM - 1);
             printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n", permutacoes);
             apresentarVetor(vetorDuplicado);
             break;

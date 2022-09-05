@@ -65,4 +65,3 @@ void quickSort(int *vetor, int iniVetor, int fimVetor)
 		quickSort(vetor, pivo + 1, fimVetor);
 	}
 }
-
