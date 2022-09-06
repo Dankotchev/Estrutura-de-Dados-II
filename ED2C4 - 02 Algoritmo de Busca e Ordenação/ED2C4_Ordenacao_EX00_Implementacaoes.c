@@ -103,10 +103,11 @@ int main()
             break;
 
         case 6:
+            permutacoes = 0;
             printf("\n\tQuick  Sort\nO vetor desordenado:\n");
             inserirAleatorio(vetor);
             apresentarVetor(vetor);
-            quickSort(vetor, 0, TAM- 1);
+            quickSort(vetor, 0, TAM - 1, &permutacoes);
             printf("Foram necessarias %ld operacoes;\n\tO vetor ordenado: \n", permutacoes);
             apresentarVetor(vetor);
             break;
