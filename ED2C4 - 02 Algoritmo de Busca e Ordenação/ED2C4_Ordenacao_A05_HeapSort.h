@@ -8,11 +8,11 @@ long int heapSort(int *vetor, int tamanho)
 
     while (1)
     {
-        // contador++;
         if (i > 0)
         {
             i--;
             auxiliar = vetor[i];
+            contador++;
         }
         else
         {
@@ -23,6 +23,7 @@ long int heapSort(int *vetor, int tamanho)
             }
             auxiliar = vetor[tamanho];
             vetor[tamanho] = vetor[0];
+            contador++;
         }
 
         pai = i;
@@ -45,6 +46,7 @@ long int heapSort(int *vetor, int tamanho)
                 break;
         }
         vetor[pai] = auxiliar;
+        contador++;
     }
     return contador;
 }

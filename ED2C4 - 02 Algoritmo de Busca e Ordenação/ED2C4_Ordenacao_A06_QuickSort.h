@@ -1,3 +1,10 @@
+void troca(int vet[], int i, int j)
+{
+	int aux = vet[i];
+	vet[i] = vet[j];
+	vet[j] = aux;
+}
+
 /*
 Escolha um pivo e coloca todos os valores maiores a sua direita, e menores a sua esquerda, finalizando
 o pivo em sua posição.
@@ -9,6 +16,13 @@ void quickSort(int *vetor, int iniArray, int fimArray, long int *permutacoes)
 
 	if (iniArray < fimArray)
 	{
+		// Maneira de escolher um pivô para um melhor resultado do Quick Sort
+		// if (vetor[media] < vetor[iniArray])
+		// 	troca(vetor, media, iniArray);
+		// if (vetor[fimArray] < vetor[iniArray])
+		// 	troca(vetor, fimArray, iniArray);
+		// if (vetor[media] < vetor[fimArray])
+		// 	troca(vetor, media, fimArray);
 
 		pivo = iniArray;
 		i = iniArray;
