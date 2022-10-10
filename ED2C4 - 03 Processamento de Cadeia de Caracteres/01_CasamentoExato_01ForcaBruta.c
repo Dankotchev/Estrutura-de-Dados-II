@@ -34,8 +34,8 @@ int main()
 {
     tipoTexto textoT = "os testes fizeram os alunos tremerem";
     tipoPadrao padraoP = "testes";
-    long n = strlen(textoT);
-    long m = strlen(padraoP);
+    long n = strlen(textoT)-1;
+    long m = strlen(padraoP)-1;
 
     //lerTexto(textoT, n+1);
     //n = strlen(textoT);
