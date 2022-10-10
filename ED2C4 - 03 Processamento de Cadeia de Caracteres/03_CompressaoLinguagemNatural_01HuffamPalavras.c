@@ -32,6 +32,26 @@ typedef tipoPalavra *tipoVetorPalavra;
 
 // Inserir outras funções
 
+// Função que define e codifica simbolos
+void defineAlfabeto(tipoAlfabeto alfabeto, FILE* arquivoAlfabeto)
+{
+    char simbolos[MAXALFABETO + 1];
+    int i;
+    char *temporario;
+
+    for (i = 0; i <= MAXALFABETO; i++)
+        alfabeto[i] = FALSE;
+    
+    fgets(simbolos, MAXALFABETO +1, arquivoAlfabeto);
+    temporario = strchr(simbolos, '\n');
+    if (temporario != NULL)
+        *temporario = 0;
+    for (i = 0; i <= strlen(simbolos); i++)
+        alfabeto[simbolos[i] + 127] = TRUE;
+    alfabeto[0] = FALSE;
+    
+}
+
 // Primeira etapa da compressão
 
 // Segunda etapa da compressão
@@ -41,7 +61,16 @@ typedef tipoPalavra *tipoVetorPalavra;
 // Função responsável por comprimir um arquivo texto, utilizando as três etapas
 void compressao(FILE *arquivoTexto, FILE *arquivoAlfabeto, FILE *arquivoComprimido)
 {
+    tipoAlfabeto alfabeto;
+    tipoPalavra palavra, linha;
+    int indice = 1, maxCompCod; //? entender esse maxCompCod
+    tipoPesos p;
+    tipoDicionario vocabulario = (tipoDicionario) calloc(M+1, sizeof(tipoItem));
+    tipoVetoresBO vetoresBaseOffset = (tipoVetoresBO) calloc(MAXTAMVETORESDO + 1, sizeof(tipoBaseOffset));
 
+    printf("Definindo alfabeto\n");
+    defineAlfabeto(alfabeto, arquivoAlfabeto);
+    *linha = '\0';
 }
 
 
