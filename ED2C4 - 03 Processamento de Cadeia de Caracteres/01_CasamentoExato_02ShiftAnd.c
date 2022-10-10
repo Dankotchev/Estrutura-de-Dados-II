@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAXTAMANHOTEXTO 1000
 #define MAXTAMANHOPADRAO 10
 #define MAXCHAR 256
@@ -35,13 +36,10 @@ void ShiftAnd(tipoTexto TEXTO, tipoPadrao PADRAO, long n, long m)
 
 int main()
 {
-    tipoTexto textoT;
-    tipoPadrao padraoP;
+    tipoTexto textoT = "os testes fizeram os alunos tremerem";
+    tipoPadrao padraoP = "testes";
     long n = MAXTAMANHOTEXTO;
-    long m = MAXTAMANHOPADRAO;
-
-    lerTexto(textoT, n);
-    lerPadrao(padraoP, m);
+    long m = strlen(padraoP) -1;
 
     ShiftAnd(textoT, padraoP, n, m);
 

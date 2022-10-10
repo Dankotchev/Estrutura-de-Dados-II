@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAXTAMANHOTEXTO 1000
 #define MAXTAMANHOPADRAO 10
 #define MAXCHAR 256
@@ -33,25 +34,15 @@ int main()
 {
     tipoTexto textoT = "os testes fizeram os alunos tremerem";
     tipoPadrao padraoP = "testes";
-    long n = MAXTAMANHOTEXTO;
-    long m = MAXTAMANHOPADRAO;
+    long n = strlen(textoT);
+    long m = strlen(padraoP);
 
-
-    printf("%s\n", textoT);
-    printf("%s\n", padraoP);
-
-
-    lerTexto(textoT, n+1);
-    lerPadrao(padraoP, m+1);
-
-    printf("%s\n", textoT);
-    printf("%s\n", padraoP);
+    //lerTexto(textoT, n+1);
+    //n = strlen(textoT);
+    //lerPadrao(padraoP, m+1);
+    //m = strlen(padraoP);
 
     forcaBruta(textoT, padraoP, n, m);
-
-
-
-
 
     return 0;
 }
